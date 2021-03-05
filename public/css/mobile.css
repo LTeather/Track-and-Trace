@@ -1,0 +1,9 @@
+@media screen and (max-device-width: 1050px) {
+    footer {
+        padding: 15px 0;
+    }
+
+    .explanation {
+        width: 100%;
+    }
+}

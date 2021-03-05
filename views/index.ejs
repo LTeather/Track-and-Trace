@@ -1,0 +1,76 @@
+  <%- include('partials/header') -%>
+  
+  <body>
+    
+    <section class="navigation">
+      <div class="topnav">
+        <div class="container"><a href="#"><img class="logo" src="/img/logo.png"></a></div>
+      </div>
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="height: 53px;line-height: 40px;">
+              <li class="nav-item">
+                <a class="nav-link" href="#">COVID Checker</a>
+              </li>        
+              <li class="nav-item">
+                <a class="nav-link" href="#">Check Symptoms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Latest Advice</a>
+              </li>                    
+              <li class="nav-item">
+                <a class="nav-link" href="#">Services near you</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>              
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </section>
+
+    <section class="content">
+      <div class="notifications" id="notifications"></div>
+      <div class="container">
+
+        <div class="explanation">
+          <h2>COVID-19 Checker</h2>
+
+          <p>Enter your email address or phone number into the box below to check either your test results, or to see if you have come into close contact with someone with COVID-19.</p>
+          <p>This will also take into account the risk level of each business you've visited to know if it requires isolation or not.</p>
+          <p>You can also sign up for push notifications in case this changes, to know the instant it does.</p>
+
+          <input type="text" id="userCheck" class="form-control checkInput" placeholder="Enter your email address or postcode" aria-label="Enter your email address or postcode">
+          <button class="btn checkBtn" type="button" onclick="checkUser()">Check Status</button>
+
+          <h2>Have you got symptoms?</h2>
+
+          <p>If you've got symptoms, then please use our <a href="#">Symptom Checker</a>.</p>
+          <p>This will tell you if you need to take precautions, and will help you to identify what to look out for, for the future.</p>
+
+          <h2>Daily Cases Chart</h2>
+          <canvas id="myChart" width="400px" height="400px"></canvas>
+        </div>
+
+      </div>
+    </section>
+  </div>  
+
+  <%- include('partials/footer') -%>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script src="js/index.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+  </body>
+</html>

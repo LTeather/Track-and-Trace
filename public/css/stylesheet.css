@@ -1,0 +1,151 @@
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  background: #f0f4f5;
+  color: #212b32;
+  overflow-x: hidden;
+}
+
+footer {
+  width: 100%;
+  background: #d8dde0;
+  border-top: 4px solid #005eb8;
+  padding: 25px 0;
+  text-align: center;
+}
+
+.footer-list, .footer-list li a {
+  list-style-type: none;
+  color: #4c6272;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.footer-list li {
+  margin-bottom: 10px;
+}
+
+i {
+  color: #e9b10b;
+  padding-right: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333541;
+  border-radius: 8px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #005eb8;
+  height: 80px;
+  border-bottom: 1px solid #337ec6;
+}
+
+.topnav .logo {
+  height: 40px;
+  margin-top: 20px;
+}
+
+.navbar {
+  background: #005eb8!important;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  height: 53px;
+}
+
+.navbar ul {
+  width: 100%;
+  margin: auto;
+}
+
+.navbar li {
+  width: calc(100% / 5);
+  height: 100%;
+}
+
+.navbar li a {
+  color: #FFF!important;
+  text-align: center;
+}
+
+.navbar li:hover {
+  background: #003d78;
+  text-decoration: underline;
+}
+
+.notifications {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+}
+
+.notifications .alert {
+  padding: 20px;
+  background-color: rgba(244,67,54,0.65);
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+}
+
+.notifications .alert.success { background-color: rgba(76,175,80,0.65); }
+.notifications .alert.info { background-color: rgba(33,150,243,0.65); }
+.notifications .alert.warning { background-color: rgba(255,152,0,0.65); }
+
+.notifications .closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.notifications .closebtn:hover {
+  color: black;
+}
+
+.explanation {
+  width: 75%;
+  margin: auto;
+  padding: 25px 0;
+  
+}
+
+.explanation h2 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.checkInput {
+  width: 85%;
+  margin: auto;
+  margin-top: 35px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.checkBtn {
+  padding: 5px;
+  background: #005eb8;
+  border: solid 2px #003d78;
+  color: #FFF;
+  font-size: 1.3rem;
+  font-weight: 400;
+  display: block;
+  width: 300px;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
