@@ -3,7 +3,16 @@
         padding: 15px 0;
     }
 
-    .explanation {
+    .main-container {
+        width: 100%;
+    }
+    
+    .navbar li {
+        width: 100%;
+        background: #005eb8;
+    }
+
+    .login-container {
         width: 100%;
     }
 }

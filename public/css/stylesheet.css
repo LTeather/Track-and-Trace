@@ -27,11 +27,6 @@ footer {
   margin-bottom: 10px;
 }
 
-i {
-  color: #e9b10b;
-  padding-right: 3px;
-}
-
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -115,14 +110,14 @@ i {
   color: black;
 }
 
-.explanation {
+.main-container {
   width: 75%;
   margin: auto;
   padding: 25px 0;
   
 }
 
-.explanation h2 {
+.main-container h2 {
   font-size: 2.6rem;
   font-weight: 600;
   text-align: center;
@@ -148,4 +143,41 @@ i {
   margin: auto;
   margin-top: 25px;
   margin-bottom: 35px;
+}
+
+
+input {
+  background-color: #fafafa;
+  border:0;
+  border-radius: 3px;
+  box-shadow:0 0 4px rgba(0,0,0,0.3);
+  transition: .3s box-shadow;
+  padding: 10px;
+}
+
+input:hover {
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
+}
+
+.login-container {
+  background: #DDD;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  width: 80%;
+  margin: 20px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.login-container h3 {
+  padding-top: 10px;
+}
+
+.login-container input {
+  width: 250px;
+}
+
+.login-container button {
+  margin-top: 20px;
+  padding: 10px 25px;
 }

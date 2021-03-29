@@ -1,0 +1,71 @@
+<%- include('partials/header-dashboard') -%>
+  
+<body>
+  <div class="navibar">
+    <ul>
+        <li class="branding"><a href="/index"><img class="logo" alt="logo" src="/img/logo-alt.png"></a></li>
+        <li><a class="nav-link" href="/dashboard"><i class="fas fa-home"></i> DASHBOARD</a></li>
+        <li><a class="nav-link" href="/dashboard/data"><i class="fas fa-chart-bar"></i> ENTER DATA</a></li>
+        <li><a class="nav-link" href="/dashboard/cases"><i class="fas fa-person-booth"></i> VIEW CASES</a></li>
+        <li><a class="nav-link" href="/dashboard/support"><i class="fas fa-question-circle"></i> SUPPORT</a></li>
+        <li><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <h2>Customer Dashboard</h2>
+    <p>View your quote requests here.</p>
+    <hr>
+    <h2>Quotes</h2>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Utility</th>
+                <th scope="col">Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th scope="row"><?php echo $row['id']; ?></th>
+                    <td><?php echo $row['date']; ?></td>
+                    <td><?php if($row['price'] == 0) { echo "Price Pending."; } else { echo "£" . $row['price']; } ?></td>
+                    <td><?php if($row['status'] == 0) { ?>
+                            <button class="btn btn-warning">Pending Review</button>
+                        <?php } else if($row['status'] == 1) { ?>
+                            <button class="btn btn-info">Quote Given</button>
+                        <?php } else { ?>
+                            <button class="btn btn-success">Quote Accepted</button>
+                        <?php } ?>
+                    </td>
+                    <td>
+                    <?php if($row['utilityType'] == 'Gas') { ?>
+                            <button class="btn btn-primary"><?php echo $row['utilityType']?></button>
+                        <?php } 
+                        else if($row['utilityType'] == 'Energy') { ?>
+                            <button class="btn btn-success"><?php echo $row['utilityType']?></button>
+                        <?php } ?>
+                    </td>
+                    <form action="dashboard" method="post" class="form-group" style="width: 100%">
+                        <input type="hidden" id="quoteID" name="quoteID" value="<?php echo $row['id']; ?>">
+                        <td><button class="btn btn-danger">Cancel</button></td>
+                    </form>
+                </tr>                  
+        </tbody>
+    </table>      
+    
+    <p>You can cancel any request at any time by pressing the cancel button next to your request.</p>
+    <p>If you have recieved a price, cancelling the request will mean you will have to wait again if you choose to submit another</p>
+
+    <%- include('partials/footer') -%>
+  </div> 
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+</body>
+</html>

@@ -1,0 +1,130 @@
+body {
+	padding: 0;
+    margin: 0;
+	font-family: 'Lato', sans-serif;
+    background: #f6f9fc;
+    color: #000;
+}
+
+hr {
+    border-top: 2px solid #1f1f1f;
+}
+
+.navibar {
+    z-index: 5;
+}
+
+.navibar .branding {
+    padding: 20px 10px;
+    z-index: 5;
+}
+
+.navibar .branding .logo {
+    width: 75%;
+}
+
+.navibar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-width: 250px;
+    background-color: #FFF;
+    border-right: 1px solid rgb(241, 243, 245);
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.navibar li a {
+    display: block;
+    color: #000;
+    padding: 12px 20px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.navibar li a i {
+    position: relative;
+    top: -6px;
+    float: left;
+    background: #f1f3f5;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.navibar li a:hover {
+    background-color: #f1f3f5;
+    transition: 0.5s;
+}
+
+.main {
+    margin-left: 250px;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.result {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.quote-container {
+    width: 75%;
+    background: #121212;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.price-input {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.price-btn {
+    margin-bottom: 20px;
+}
+
+footer {
+    width: 100%;
+    background: #d8dde0;
+    border-top: 4px solid #005eb8;
+    padding: 25px 0;
+    text-align: center;
+  }
+  
+  .footer-list, .footer-list li a {
+    list-style-type: none;
+    color: #4c6272;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+  
+  .footer-list li {
+    margin-bottom: 10px;
+  }
+
+@media screen and (max-device-width: 1024px) {
+    .navibar ul {
+        top: 0;
+        width: 100%;
+        height: auto;
+    }
+    .main {
+        margin: 0;
+        margin-top: 300px;
+    }
+    .quote-container {
+        width: 100%;
+    }
+
+    .price-input {
+        width: 75%;
+    }
+
+    .price-btn {
+        width: 50%;
+    }
+}
