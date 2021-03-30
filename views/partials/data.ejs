@@ -12,43 +12,23 @@
   </div>
 
   <div class="main">
-    <h2>Dashboard</h2>
-    <p>Welcome back to the SNH dashboard.</p>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="stat-container">
-                <h3>TOTAL CASES:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-container">
-                <h3>TOTAL INPUT:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-container">
-                <h3>USERS ALERTED:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
-            </div>
-        </div>
+    <h2>Upload Data</h2>
+    <p>Please remember to upload your businesses sheets daily. It is vital to alerting people as soon as possible if there is a case found within one of your clients.</p>
+    <div class="upload-container">
+        <form action="/retailer/processcashback/cashback" method="post" enctype="multipart/form-data">
+            <h2>Upload Data</h2>
+            <input type="file" name="customerData" id="customerData" style="margin-top:25px;" multiple/>
+            <br>
+            <input class="btn btn-success" type="submit" style="margin-top:35px; border-radius: 4px;" name="upload" value="Upload">
+        </form>
     </div>
-
-    <div class="chart-container">
-        <h2>Daily Cases Chart</h2>
-        <canvas id="myChart" width="400px" height="400px"></canvas>
-    </div>
-    
+    <p>If you have any issues uploading or processing the data, then use the <a href="/dashboard/support">Support</a></p>
   </div> 
 
   <%- include('partials/footer') -%>
 
-  <script src="js/index.js"></script>
-  <script src="js/ui.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 </body>
 </html>

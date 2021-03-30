@@ -1,0 +1,68 @@
+<%- include('partials/header-dashboard') -%>
+  
+<body>
+  <div class="navibar">
+    <ul>
+        <li class="branding"><a href="/index"><img class="logo" alt="logo" src="../img/logo.png"></a></li>
+        <li><a class="nav-link" href="/dashboard"><i class="fas fa-home"></i> DASHBOARD</a></li>
+        <li><a class="nav-link" href="/dashboard/data"><i class="fas fa-chart-bar"></i> ENTER DATA</a></li>
+        <li><a class="nav-link" href="/dashboard/support"><i class="fas fa-question-circle"></i> SUPPORT</a></li>
+        <li><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <h2>Support FAQ</h2>
+    <p>Find the answers to Frequently Asked Questions here. Simply click on the question below to find the solution.</p>
+    <div class="support-container">
+        <button class="accordion">Where can I find a template for uploading data?</button>
+        <div class="panel">
+            <p>A template for uploading the data should have been emailed to you when creating your account. If you have lost it, you can find it <a href="#">here.</a></p>
+        </div>
+
+        <button class="accordion">Why won't my data be accepted?</button>
+        <div class="panel">
+            <p>If your data sheets aren't being accepted, this is likely because they are not formatted correctly. Please read the error notification below the sumbit button for an exact reason.</p>
+        </div>
+
+        <button class="accordion">How long does it take for data to be processed?</button>
+        <div class="panel">
+            <p>Data is processed as soon as you've pressed submit. Any cases who have come into close contact with your customers will be alerted right away.</p>
+        </div>
+
+        <button class="accordion">What should I do if a customer contracts COVID?</button>
+        <div class="panel">
+            <p>If you suspect or know of a customer who has contracted coronavirus, then please report it to your local GP who will be able to send an alert to those who were close.</p>
+        </div>
+
+        <button class="accordion">How long should I keep uploading data?</button>
+        <div class="panel">
+            <p>It is important that you keep records and upload them until the government says that there are no more reported cases. This will help to alert as many people as possible and slow the spread.</p>
+        </div>
+    </div>
+  </div> 
+
+  <%- include('partials/footer') -%>
+
+  <script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+    
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        } 
+      });
+    }
+    </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+</body>
+</html>
