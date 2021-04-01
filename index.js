@@ -29,8 +29,6 @@ var databaseService = new dbService(database);
 // Initialise the Excel sheet processing service
 var sheetService = new xlsxService(xlsx);
 
-console.log(sheetService.processSheet("BusinessData.xlsx"));
-
 // Global Variables
 global.casesData = []; 
 global.cases_dates = [];
@@ -42,26 +40,25 @@ io.on('connection', function(socket) {
 		var numbers = /^[0-9]+$/;
 		var result;
 
+		// Preform check based on if an phone number or email is input
       	if (data.match(numbers)) { result = await databaseService.checkUserByPhone(); }
 		else { result = await databaseService.checkUserByEmail(); }
 
 		console.log(result);
 
+		// If there are no results found present the all clear
 		if(result.length == 0) {
 			socket.emit('clearPopup');
 		}
+		// Otherwise there must have been a case found
 		else {
 			socket.emit('isolatePopup');
 		}
 	});
 
+	// Gathers data from API to populate cases chart
 	socket.on('gatherData', async function() {
 		socket.emit('gatherCasesData', cases_dates, cases_amount);
-	});
-
-	socket.on('uploadSheet', async function (location) {
-		result = await sheetService.processSheet(location);
-		console.log(result);
 	});
 });
 
@@ -154,32 +151,49 @@ const authRoute = require('./routes/auth');
 const { post } = require('./routes/auth');
 app.use('/auth', authRoute);
 
+// Homepage
 app.get('/', (req, res) => {
 	res.render('index');
 });
 
+// Page for logging in
 app.get('/login', (req, res) => {
 	res.render('login');
 });
 
+// To check if a user is logged in and allowed to view the dashboard
 function isAuthorized(req, res, next) {
 	if(req.user) { res.redirect('/dashboard'); }
 	else { next(); }			
 }
 
+// Dashboard homepage
 app.get('/dashboard', isAuthorized, (req, res) => {
 	res.render('dashboard');
 });
 
+// Page on dashboard for uploading data
 app.get('/data', isAuthorized, (req, res) => {
 	res.render('data');
 });
 
+// Page on dashboard for FAQ
 app.get('/support', isAuthorized, (req, res) => {
 	res.render('support');
 });
 
-/** API path that will upload the files */
+// Page for successful upload
+app.get('/success', isAuthorized, (req, res) => {
+	res.render('success');
+});
+
+// Function to Process uploaded data
+async function processSheetData(location) {
+	result = await sheetService.processSheet(location);
+	console.log(result);
+}
+
+// API path that will upload the files
 app.post('/uploadSheet', function(req, res) {
 	var exceltojson;
 	upload(req,res,function(err){
@@ -200,25 +214,17 @@ app.post('/uploadSheet', function(req, res) {
 		} else {
 			exceltojson = xlstojson;
 		}
-		console.log(req.file.path);
-		try {
-			exceltojson({
-				input: req.file.path,
-				output: null, //since we don't need output.json
-				lowerCaseHeaders:true
-			}, function(err,result){
-				if(err) {
-					return res.json({error_code:1,err_desc:err, data: null});
-				} 
-				res.json({error_code:0,err_desc:null, data: result});
-			});
-		} catch (e){
-			res.json({error_code:1,err_desc:"Corupted excel file"});
-		}
+
+		//If all tests passed, upload and process the sheet
+		processSheetData(req.file.path);
+
+		//Redirect back to dashboard
+		res.redirect('success');
 	})
    
 });
 
+// Runs at launch to show everything is working
 http.listen(port, function(){
 	console.log('Track & Trace Started!')
   	console.log('listening on :' + port)
