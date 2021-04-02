@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const Crypto = require('crypto-js');
 
 // User Table Creation
 const UserSchema = new mongoose.Schema({
     identifier: { type: String },
     username: { type: String, required: true },
     password: { type: String, required: true },
-    location: { type: String },
+    location: { type: String, required: true },
     level: { type: Number, default: 0 },
 });
 
@@ -15,43 +14,30 @@ const CasesSchema = new mongoose.Schema({
     identifier: { type: String },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    phone: { type: Number, default: 0 },
-    time: { type: String, default: "00/00/0000 00:00" },
-    location: { type: String, required: true },
+    phone: { type: Number, required: true },
+});
+
+// Data Table Creation
+const DataSchema = new mongoose.Schema({
+    identifier: { type: String },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: Number, required: true },
+    time: { type: String, required: true },
+    location: { type: String },
 });
 
 // Initalise tables for use
 const users = mongoose.model('users', UserSchema);
 const cases = mongoose.model('cases', CasesSchema);
+const data  = mongoose.model('data',  DataSchema);
 
 class databaseService {
     constructor(database) {
         this.database = database;
     }     
 
-    async decrypt(data) {
-        return new Promise((resolve, reject) => {
-            var bytes  = Crypto.AES.decrypt(data, '?SHUProject2021?');
-            var decryptedData = bytes.toString(Crypto.enc.Utf8);
-            resolve(decryptedData);
-        });
-    } 
-
-    async toHHMMSS(seconds) {
-        seconds = 86400 - seconds;
-        var hours   = Math.floor(seconds / 3600);
-        var minutes = Math.floor((seconds - (hours * 3600)) / 60);
-        var seconds = seconds - (hours * 3600) - (minutes * 60);
-    
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
-        if (seconds < 10) {seconds = "0"+seconds;}
-        return hours + ':' + minutes + ':' + seconds;
-    }
-
-    /**
-    * All User related stuff
-    **/
+   // Find if there are any users matching the phone number
     async findUserByPhone(identifier) {
         var id = await this.decrypt(identifier);
         return new Promise((resolve, reject) => {
@@ -62,6 +48,7 @@ class databaseService {
         }); 
     }
 
+    // Find if there are any users matching the email
     async findUserByEmail(discordId) {
         return new Promise((resolve, reject) => {
             users.find({discordId: discordId}, (err, res) => {
@@ -71,6 +58,7 @@ class databaseService {
         }); 
     }    
 
+    // Find if there are any users matching the phone number
     async checkUserByPhone(identifier) {
         return new Promise((resolve, reject) => {
             cases.find({phone: identifier}, { limit: 1 }, (err, res) => {
@@ -80,6 +68,7 @@ class databaseService {
         });        
     }
 
+    // Find if there are any users matching the email
     async checkUserByEmail(identifier) {
         return new Promise((resolve, reject) => {
             cases.find({email: identifier}, { limit: 1 }, (err, res) => {
@@ -89,6 +78,25 @@ class databaseService {
         });        
     }
 
+    // Insert case data from sheet to cases database
+    async addSheetDataToCases(sheetData) {
+        return new Promise((resolve, reject) => {
+            cases.insertMany(sheetData, (err, res) => {
+              if (err) return null;
+              resolve(res);
+            });
+        });        
+    }
+
+    // Insert customer data from sheet to data database
+    async addSheetDataToData(sheetData) {
+        return new Promise((resolve, reject) => {
+            data.insertMany(sheetData, (err, res) => {
+              if (err) { console.log(err); return null; };
+              resolve(res);
+            });
+        });        
+    }
 }
 
 module.exports = databaseService;

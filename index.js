@@ -190,7 +190,17 @@ app.get('/success', isAuthorized, (req, res) => {
 // Function to Process uploaded data
 async function processSheetData(location) {
 	result = await sheetService.processSheet(location);
-	console.log(result);
+	result2 = await databaseService.addSheetDataToData(result);
+
+	// Delete the temporary file after being processing
+	try {
+		fs.unlinkSync(location)
+		//file removed
+	  } catch(err) {
+		console.error(err)
+	}
+
+	return;
 }
 
 // API path that will upload the files
