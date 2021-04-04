@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+const Crypto   = require('crypto-js');
 
 // User Table Creation
 const UserSchema = new mongoose.Schema({
     identifier: { type: String },
     username: { type: String, required: true },
     password: { type: String, required: true },
-    location: { type: String, required: true },
+    business_name: { type: String, required: true },
     level: { type: Number, default: 0 },
 });
 
@@ -35,7 +36,24 @@ const data  = mongoose.model('data',  DataSchema);
 class databaseService {
     constructor(database) {
         this.database = database;
-    }     
+    }    
+    
+    // Encrypt password
+    async encrypt(data) {
+        return new Promise((resolve, reject) => {
+            var ciphertext = Crypto.AES.encrypt(data, 'TrackandTrace2021!!!').toString();
+            resolve(ciphertext);
+        });
+    } 
+
+    // Decrypt password
+    async decrypt(data) {
+        return new Promise((resolve, reject) => {
+            var bytes  = Crypto.AES.decrypt(data, 'TrackandTrace2021!!!');
+            var decryptedData = bytes.toString(Crypto.enc.Utf8);
+            resolve(decryptedData);
+        });
+    } 
 
    // Find if there are any users matching the phone number
     async findUserByPhone(identifier) {
@@ -96,6 +114,42 @@ class databaseService {
               resolve(res);
             });
         });        
+    }
+
+    // Find a user in the database by email
+    async findUserByEmail(email) {
+        return new Promise((resolve, reject) => {
+            users.find({username: email}, (err, res) => {
+              if (err) return false;
+              resolve(res[0]);
+            });
+        }); 
+    }
+
+    // Find a user in the database by business name
+    async findUserByBusiness(business) {
+        return new Promise((resolve, reject) => {
+            users.find({business_name: business}, (err, res) => {
+              if (err) return false;
+              resolve(res[0]);
+            });
+        }); 
+    }
+
+    // Insert new user into database
+    async addUser(business, email, password) {
+        let hashedPassword = await this.encrypt(password);
+        let user = { username: email, password: hashedPassword, business_name: business };
+        let userFind = await this.findUserByEmail(email);
+
+        if(userFind === undefined) {
+            return new Promise((resolve, reject) => {
+                users.insertOne(user, (err, res) => {
+                  if (err) { console.log(err); return null; };
+                  resolve(res);
+                });
+            });  
+        }
     }
 }
 

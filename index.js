@@ -12,10 +12,12 @@ const multer     = require('multer');
 const path       = require('path');
 const axios      = require("axios");
 const xlsx       = require("xlsx");
-const passport   = require('passport');
+const passport   = require('passport')
+const flash      = require('express-flash')
+const session    = require('express-session')
+const methodOverride = require('method-override')
 const database   = require('./database/database');
 const mongoose   = require('mongoose');
-const session    = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const xlstojson  = require("xls-to-json-lc");
 const xlsxtojson = require("xlsx-to-json-lc");
@@ -141,10 +143,18 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
 
 // Initialize Cookie sessions for login data
+app.use(flash());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride('_method'));
 
 // Setup routing for when user logged in
 const authRoute = require('./routes/auth');
@@ -159,6 +169,24 @@ app.get('/', (req, res) => {
 // Page for logging in
 app.get('/login', (req, res) => {
 	res.render('login');
+});
+
+// Page for registering account
+app.get('/register', (req, res) => {
+	res.render('register');
+});
+
+// Processing of account registration
+app.post('/register', async (req, res) => {
+	try {
+		var result = await databaseService.addUser(req.body.business, req.body.email, req.body.password);
+		console.log(result);
+		res.redirect('/login');
+	}
+	catch {
+		console.log('reached error');
+		res.redirect('/register');
+	}
 });
 
 // To check if a user is logged in and allowed to view the dashboard
