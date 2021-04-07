@@ -142,7 +142,11 @@ class databaseService {
         let user = { username: email, password: hashedPassword, business_name: business };
         let userFind = await this.findUserByEmail(email);
 
+        console.log(userFind);
+        console.log(users);
+
         if(userFind === undefined) {
+            console.log(user);
             return new Promise((resolve, reject) => {
                 users.insertOne(user, (err, res) => {
                   if (err) { console.log(err); return null; };
