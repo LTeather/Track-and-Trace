@@ -1,4 +1,5 @@
 
+const e = require("express");
 const xlsx = require("xlsx");
 
 const clients = [];
@@ -29,7 +30,13 @@ class xlxsService {
                         client.email = worksheet[cell].v;
                     }
                     if(cellAsString[0] === 'D') {
-                        client.time = worksheet[cell].v;
+                        if(typeof worksheet[cell].v === 'string') {
+                            client.date = worksheet[cell].v;
+                        }
+                        else {
+                            client.time = worksheet[cell].v;
+                        }
+                        
                         clients.push(client);
                         client = {};
                     }
@@ -38,7 +45,6 @@ class xlxsService {
             resolve(clients);
         });
     }
-
 }
 
 module.exports = xlxsService;

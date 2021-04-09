@@ -16,6 +16,7 @@ const CasesSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: Number, required: true },
+    date: { type: String, required: true },
 });
 
 // Data Table Creation
@@ -142,13 +143,9 @@ class databaseService {
         let user = { username: email, password: hashedPassword, business_name: business };
         let userFind = await this.findUserByEmail(email);
 
-        console.log(userFind);
-        console.log(users);
-
         if(userFind === undefined) {
-            console.log(user);
             return new Promise((resolve, reject) => {
-                users.insertOne(user, (err, res) => {
+                users.insertMany(user, (err, res) => {
                   if (err) { console.log(err); return null; };
                   resolve(res);
                 });

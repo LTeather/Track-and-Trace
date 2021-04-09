@@ -21,6 +21,7 @@ const mongoose   = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const xlstojson  = require("xls-to-json-lc");
 const xlsxtojson = require("xlsx-to-json-lc");
+const nodemailer = require('nodemailer');
 
 // Connect to the database
 database.then(() => console.log('Connected to MongoDB.')).catch(err => console.log(err));
@@ -124,6 +125,28 @@ var upload = multer({
 				}
 			}).single('file');
 
+// Initialize mailing service for alert emails
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'trackandtraceproject2021@gmail.com',
+		pass: 'TrackandTrace2021!!!'
+	}
+});
+	
+var mailOptions = {};
+	
+// Function for sending emails to list of people
+async function sendMail(mailOptions) {
+	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+			console.log(error);
+		} else {
+			console.log('Emails successfully sent');
+		}
+	});
+}
+
 // Port for connection/hosting website
 let port = 1337;
 
@@ -179,12 +202,11 @@ app.get('/register', (req, res) => {
 // Processing of account registration
 app.post('/register', async (req, res) => {
 	try {
-		var result = await databaseService.addUser(req.body.business, req.body.email, req.body.password);
-		console.log(result);
+		databaseService.addUser(req.body.business, req.body.email, req.body.password) 
 		res.redirect('/login');
 	}
 	catch {
-		console.log('reached error');
+		console.log('reached error at register');
 		res.redirect('/register');
 	}
 });
@@ -217,9 +239,43 @@ app.get('/success', isAuthorized, (req, res) => {
 
 // Function to Process uploaded data
 async function processSheetData(location) {
+	// Process the uploaded excel file into a readable JSON format
 	result = await sheetService.processSheet(location);
-	result2 = await databaseService.addSheetDataToData(result);
 
+	// Decide if it needs to be added to cases or just data table
+	if(result[0].time === undefined) {
+		result2 = await databaseService.addSheetDataToCases(result);
+		console.log('Added recieved data to "cases" table');
+
+		// Create a string list of all emails of people who have been added
+		let emailstring = "";
+
+		for(var i = 0; i < result.length; i++) {
+			if(i + 1 == result.length) {
+				emailstring += result[i].email;
+			}
+			else {
+				emailstring += result[i].email + ", ";
+			}
+		}
+		// Send emails to all people who have had cases put into the system
+		mailOptions = {
+			from: 'trackandtraceproject2021@gmail.com',
+			to: emailstring,
+			subject: '[SHN ALERT] YOU HAVE TESTED POSITIVE FOR CORONAVIRUS!',
+			html: '<h1>You have tested POSITIVE for Coronavirus</h1><p>You must isolate for <b>14 days</b> and alert those who you have been in contact with for the past 10 days.</p><p>For more info please visit the SHN website.</p>'
+		};
+
+		// Call the actual sending function
+		await sendMail(mailOptions);  
+	}
+	else {
+		result2 = await databaseService.addSheetDataToData(result);
+		console.log('Added recieved data to "data" table');
+	}
+
+	
+	
 	// Delete the temporary file after being processing
 	try {
 		fs.unlinkSync(location)
