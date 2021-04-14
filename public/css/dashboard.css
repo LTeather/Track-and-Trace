@@ -181,10 +181,12 @@ footer {
         top: 0;
         width: 100%;
         height: auto;
+        max-width: unset;
+        z-index: 5;
     }
     .main {
         margin: 0;
-        margin-top: 300px;
+        margin-top: 350px;
     }
     .upload-container {
         width: 100%;

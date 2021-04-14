@@ -32,6 +32,10 @@ var databaseService = new dbService(database);
 // Initialise the Excel sheet processing service
 var sheetService = new xlsxService(xlsx);
 
+// Enable passport routing and config
+const passportConfig = require('./passport-config');
+passportConfig(passport, email => { databaseService.findUserByEmail(email); }, id => { databaseService.findUserByID(id); });
+
 // Global Variables
 global.casesData = []; 
 global.cases_dates = [];
@@ -44,13 +48,11 @@ io.on('connection', function(socket) {
 		var result;
 
 		// Preform check based on if an phone number or email is input
-      	if (data.match(numbers)) { result = await databaseService.checkUserByPhone(); }
-		else { result = await databaseService.checkUserByEmail(); }
-
-		console.log(result);
+      	if (data.match(numbers)) { result = await databaseService.checkCasesByPhone(data); }
+		else { result = await databaseService.checkCasesByEmail(data); }
 
 		// If there are no results found present the all clear
-		if(result.length == 0) {
+		if(result === undefined) {
 			socket.emit('clearPopup');
 		}
 		// Otherwise there must have been a case found
@@ -62,6 +64,15 @@ io.on('connection', function(socket) {
 	// Gathers data from API to populate cases chart
 	socket.on('gatherData', async function() {
 		socket.emit('gatherCasesData', cases_dates, cases_amount);
+	});
+
+	// Gathers stats
+	socket.on('gatherStats', async function() {
+		var cases   = await databaseService.getCasesStat();
+		var input   = await databaseService.getInputStat();
+		var alerted = await databaseService.getAlertedStat();
+
+		socket.emit('receiveStats', { cases: cases, input: input, alerted: alerted });
 	});
 });
 
@@ -179,11 +190,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
-// Setup routing for when user logged in
-const authRoute = require('./routes/auth');
-const { post } = require('./routes/auth');
-app.use('/auth', authRoute);
-
 // Homepage
 app.get('/', (req, res) => {
 	res.render('index');
@@ -193,6 +199,13 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
 	res.render('login');
 });
+
+// Login logic to use passport
+app.post('/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/dashboard',
+	failureFlash: true
+}));
 
 // Page for registering account
 app.get('/register', (req, res) => {
@@ -209,6 +222,11 @@ app.post('/register', async (req, res) => {
 		console.log('reached error at register');
 		res.redirect('/register');
 	}
+});
+
+// logging out
+app.get('/logout', (req, res) => {
+	res.redirect('/');
 });
 
 // To check if a user is logged in and allowed to view the dashboard

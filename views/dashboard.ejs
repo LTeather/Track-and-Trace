@@ -5,8 +5,8 @@
     <ul>
         <li class="branding"><a href="/index"><img class="logo" alt="logo" src="../img/logo.png"></a></li>
         <li><a class="nav-link" href="/dashboard"><i class="fas fa-home"></i> DASHBOARD</a></li>
-        <li><a class="nav-link" href="/dashboard/data"><i class="fas fa-chart-bar"></i> ENTER DATA</a></li>
-        <li><a class="nav-link" href="/dashboard/support"><i class="fas fa-question-circle"></i> SUPPORT</a></li>
+        <li><a class="nav-link" href="/data"><i class="fas fa-chart-bar"></i> ENTER DATA</a></li>
+        <li><a class="nav-link" href="/support"><i class="fas fa-question-circle"></i> SUPPORT</a></li>
         <li><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
     </ul>
   </div>
@@ -17,20 +17,26 @@
     <div class="row">
         <div class="col-md-4">
             <div class="stat-container">
-                <h3>TOTAL CASES:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                <div id="stats-cases">
+                    <h3>TOTAL CASES:</h3>
+                    <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-container">
-                <h3>TOTAL INPUT:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                <div id="stats-input">
+                    <h3>TOTAL INPUT:</h3>
+                    <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-container">
-                <h3>USERS ALERTED:</h3>
-                <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                <div id="stats-alerted">
+                    <h3>USERS ALERTED:</h3>
+                    <h4 id="totalusers"><i class="fas fa-users" aria-hidden="true"></i> 0</h4>
+                </div>
             </div>
         </div>
     </div>
@@ -44,7 +50,7 @@
 
   <%- include('partials/footer') -%>
 
-  <script src="../js/index.js"></script>
+  <script src="../js/dashboard.js"></script>
   <script src="../js/ui.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -1,10 +1,10 @@
-<%- include('partials/header') -%>
+<%- include('partials/header-passport') -%>
   
 <body>
   
   <section class="navigation">
     <div class="topnav">
-      <div class="container"><a href="#"><img class="logo" alt="logo" src="/img/logo.png"></a></div>
+      <div class="container"><a href="#"><img class="logo" alt="logo" src="../img/logo.png"></a></div>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,20 +16,20 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="height: 53px;line-height: 40px;">
             <li class="nav-item">
-              <a class="nav-link" href="#">COVID Checker</a>
+              <a class="nav-link" href="/">COVID Checker</a>
             </li>        
             <li class="nav-item">
-              <a class="nav-link" href="#">Check Symptoms</a>
+              <a class="nav-link" href="/">Check Symptoms</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Latest Advice</a>
+              <a class="nav-link" href="https://www.nhs.uk/conditions/coronavirus-covid-19/">Latest Advice</a>
             </li>                    
             <li class="nav-item">
-              <a class="nav-link" href="#">Services near you</a>
+              <a class="nav-link" href="https://www.nhs.uk/nhs-services/">Services near you</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact Us</a>
-            </li>              
+              <a class="nav-link" href="/">Contact Us</a>
+            </li>                   
           </ul>
         </div>
       </div>
@@ -50,6 +50,9 @@
             <input type="password" name="password"  placeholder="Enter Password...">
             <br>
             <button class="btn btn-success" type="submit" value="Login">Login</button>
+            <% if (messages.error) { %>
+                <%= messages.error %>
+            <% } %>
           </form>
         </div>
       </div>

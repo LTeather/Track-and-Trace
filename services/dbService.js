@@ -56,21 +56,20 @@ class databaseService {
         });
     } 
 
-   // Find if there are any users matching the phone number
-    async findUserByPhone(identifier) {
-        var id = await this.decrypt(identifier);
+    // Find if there are any users matching the email
+    async findUserByEmail(email) {
         return new Promise((resolve, reject) => {
-            users.find({discordId: id}, (err, res) => {
+            users.find({email: email}, (err, res) => {
               if (err) return false;
               resolve(res[0]);
             });
         }); 
-    }
+    }    
 
-    // Find if there are any users matching the email
-    async findUserByEmail(discordId) {
+    // Find if there are any users matching the identifier
+    async findUserByIdentifier(identifier) {
         return new Promise((resolve, reject) => {
-            users.find({discordId: discordId}, (err, res) => {
+            users.find({identifier: identifier}, (err, res) => {
               if (err) return false;
               resolve(res[0]);
             });
@@ -78,21 +77,21 @@ class databaseService {
     }    
 
     // Find if there are any users matching the phone number
-    async checkUserByPhone(identifier) {
+    async checkCasesByPhone(identifier) {
         return new Promise((resolve, reject) => {
-            cases.find({phone: identifier}, { limit: 1 }, (err, res) => {
-              if (err) return null;
-              resolve(res);
+            cases.find({phone: identifier}, (err, res) => {
+                if (err) return false;
+                resolve(res[0]);
             });
         });        
     }
 
     // Find if there are any users matching the email
-    async checkUserByEmail(identifier) {
+    async checkCasesByEmail(identifier) {
         return new Promise((resolve, reject) => {
-            cases.find({email: identifier}, { limit: 1 }, (err, res) => {
-              if (err) return null;
-              resolve(res);
+            cases.find({email: identifier}, (err, res) => {
+                if (err) return false;
+                resolve(res[0]);
             });
         });        
     }
@@ -151,6 +150,36 @@ class databaseService {
                 });
             });  
         }
+    }
+
+    // Get Stats for Dashboard
+    async getCasesStat() {
+        return new Promise((resolve, reject) => {
+            cases.countDocuments({}, function(err, result) {
+              if (err) return reject(false);
+              resolve(result);
+            });
+        });
+    }
+
+    // Get Stats for Dashboard
+    async getInputStat() {
+        return new Promise((resolve, reject) => {
+            data.countDocuments({}, function(err, result) {
+              if (err) return reject(false);
+              resolve(result);
+            });
+        });
+    }
+
+    // Get Stats for Dashboard
+    async getAlertedStat() {
+        return new Promise((resolve, reject) => {
+            cases.countDocuments({}, function(err, result) {
+              if (err) return reject(false);
+              resolve(result);
+            });
+        });
     }
 }
 
